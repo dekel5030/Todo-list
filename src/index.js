@@ -7,19 +7,36 @@ import Database from './Database.js';
 const domManager = new DomManager();
 const database = new Database();
 
-document.querySelector('#new-project').addEventListener("click", newProject);
+document.querySelector('#new-project').addEventListener("click", DomManager.getProjectFromUser);
 document.querySelector('#save').addEventListener("click", save);
 document.querySelector('#import').addEventListener("click", Load);
 
 
 
-function newProject() {
-    const title = prompt("Enter the project title:");
-    const description = prompt("Enter the project description:");
 
-    const project = new Project(title, description);
-    domManager.addProject(project);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function save() {
     const projectElements = document.querySelectorAll('.project');

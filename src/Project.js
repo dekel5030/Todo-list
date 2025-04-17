@@ -1,10 +1,17 @@
 class Project {
+    static #idCounter = 0;
+
     constructor(title, description) {
+        this._id = Project.#idCounter++;
         this._title = title;
         this._description = description;
         this._missions = [];
     }
-  
+
+    get id() {
+        return this._id;
+    }
+    
     get title() {
         return this._title;
     }
