@@ -1,4 +1,4 @@
-class ListItem {
+class Task {
     constructor(title, description, dueDate, priority) {
         this._title = title;
         this._description = description;
@@ -39,5 +39,5 @@ class ListItem {
     }
 }
 
-export default ListItem;
+export default Task;
   

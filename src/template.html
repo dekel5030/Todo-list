@@ -6,13 +6,38 @@
     <title>Welcome to The Gourmet Bistro</title>
 </head>
 <body>
-    <header class="buttons">
-        <button id="new-project">New Project</button>
-        <button id="save">Save</button>
-        <button id="import">Load</button>
+    <header>
+        <div class="left">
+            <button class="menu">Menu</button>
+        </div>
+        <div class="logo center">
+            <h1>GetSh*tDone</h1>
+        </div>
+        <div class="right theme">
+            <button class="theme">Light</button>
+        </div>
     </header>
-    <div id="projects">
-        
+    
+    <div class="content">
+        <nav class="left-panel">
+            <div class="home">
+                <h2>Home</h2>
+                <button class="selected-tab"><img id="all-tasks-img" alt=""> All Tasks</button>
+                <button class="tab"><img id="today-img" alt=""> Today</button>
+                <button class="tab"><img id="next-week-img" alt=""> Next Week</button>
+                <button class="tab"><img id="important-img" alt=""> Important</button>
+            </div>
+            <div class="projects">
+                <h2>Projects</h2>
+                <button id="add-project" class="tab"><img class="project-img" alt=""> Add Project</button>
+            </div>
+        </nav>
+
+        <main class="right-panel">
+            <div class="title">No Tasks</div>
+            <div class="list-tasks"></div>
+        </main>
+
     </div>
 </body>
 </html>
