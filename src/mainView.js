@@ -23,14 +23,16 @@ function loadButtonImages() {
 
 function selectTabChange(event) {
     const prevSelectedTabButton = document.querySelector(".selected-tab");
-    prevSelectedTabButton.className = "tab";
-    event.target.className = "selected-tab";
+    prevSelectedTabButton.classList.remove("selected-tab");
+    prevSelectedTabButton.classList.add("tab");
+    event.target.classList.add("selected-tab");
 }
 
 function renderProjectTab(project) {
     const container = document.querySelector(".left-panel .projects");
     const projectTab = createTabButton(project.title);
-    
+
+    projectTab.classList.add("project-tab");
     projectTab.dataset.projectId = project.id;
     container.insertBefore(projectTab, document.getElementById("add-project"));
 
@@ -76,13 +78,21 @@ function createTabButton(text){
 function renderProject(project) {
     const rightPanel = document.querySelector(".right-panel");
     const titleContainer = document.querySelector(".right-panel .title");
-    const header = document.createElement("h2");
+    const projectHeader = document.createElement("h2");
+    const projectDescription = document.createElement("p");
 
     clearRightPanel();
-    header.textContent = project.title;
+    projectHeader.textContent = project.title;
+    projectHeader.classList.add("project-title");
+
+    projectDescription.textContent = project.description;
+    projectDescription.classList.add("project-description");
     
-    titleContainer.appendChild(header);
+    titleContainer.append(projectHeader, projectDescription);
+
+    return {projectHeader, projectDescription};
 }
+
 
 function clearRightPanel(){
     const titleContainer = document.querySelector(".right-panel .title");

@@ -1,7 +1,7 @@
 class Project {
     static #idCounter = 0;
 
-    constructor(title = `Project ${Project.#idCounter}`, description = "") {
+    constructor(title = `Project ${Project.#idCounter}`, description = "None") {
         this._id = Project.#idCounter++;
         this._title = title;
         this._description = description;

@@ -133,3 +133,6 @@ button img {
 }
 
 
+.project-title:hover, .project-description:hover {
+    cursor: pointer;
+}
