@@ -23,6 +23,7 @@ function loadButtonImages() {
 
 function selectTabChange(event) {
     const prevSelectedTabButton = document.querySelector(".selected-tab");
+
     prevSelectedTabButton.classList.remove("selected-tab");
     prevSelectedTabButton.classList.add("tab");
     event.target.classList.add("selected-tab");
@@ -31,13 +32,27 @@ function selectTabChange(event) {
 function renderProjectTab(project) {
     const container = document.querySelector(".left-panel .projects");
     const projectTab = createTabButton(project.title);
+    const existingTab = document.querySelector(`[data-project-id="${project.id}"]`)
+    let beforeElement;
+
+    if (existingTab) {
+        beforeElement = existingTab.nextSibling;
+        existingTab.remove();
+        projectTab.classList.add("selected-tab");
+    }
+    else
+    {
+        beforeElement = document.getElementById("add-project");
+
+    }
 
     projectTab.classList.add("project-tab");
     projectTab.dataset.projectId = project.id;
-    container.insertBefore(projectTab, document.getElementById("add-project"));
+    container.insertBefore(projectTab, beforeElement);
 
     return projectTab;
 }
+
 
 function deleteParent(event){
     event.target.parentElement.remove();
@@ -89,6 +104,8 @@ function renderProject(project) {
     projectDescription.classList.add("project-description");
     
     titleContainer.append(projectHeader, projectDescription);
+
+    renderProjectTab(project);
 
     return {projectHeader, projectDescription};
 }

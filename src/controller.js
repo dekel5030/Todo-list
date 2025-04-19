@@ -52,7 +52,7 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 
     input.addEventListener("blur", () => {
         project[field] = input.value;
-        onProjectClick({ currentTarget: { dataset: { projectId: project.id } } }); 
+        onProjectClick({ currentTarget: { dataset: { projectId: project.id } } });
     });
 
     input.addEventListener("keydown", (event) => {
