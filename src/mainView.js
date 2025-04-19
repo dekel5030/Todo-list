@@ -27,18 +27,14 @@ function selectTabChange(event) {
     event.target.className = "selected-tab";
 }
 
-function addProjectClick(event) {
+function renderProjectTab(project) {
     const container = document.querySelector(".left-panel .projects");
-    const project = createTabButton();
-    const projectNameInput = document.createElement("input");
-    const buttonAdd = createYesButton("Add");
-    const buttonCancel = createNoButton("Cancel");
+    const projectTab = createTabButton(project.title);
+    
+    projectTab.dataset.projectId = project.id;
+    container.insertBefore(projectTab, document.getElementById("add-project"));
 
-    projectNameInput.placeholder = "Enter Project Name";
-    buttonCancel.addEventListener("click", deleteParent);
-
-    project.appendChild(projectNameInput, buttonAdd, buttonCancel);
-    container.insertBefore(project, event.target)
+    return projectTab;
 }
 
 function deleteParent(event){
@@ -64,17 +60,36 @@ function createNoButton()
     return button;
 }
 
-function createTabButton(){
+function createTabButton(text){
     const tab = document.createElement("button");
     const tabImg = document.createElement("img");
 
     tab.className = "tab";
     tabImg.src = menuImg;
-
     tab.appendChild(tabImg);
+    tab.innerHTML += text;
     tab.addEventListener("click", selectTabChange);
 
     return tab;
+}
+
+function renderProject(project) {
+    const rightPanel = document.querySelector(".right-panel");
+    const titleContainer = document.querySelector(".right-panel .title");
+    const header = document.createElement("h2");
+
+    clearRightPanel();
+    header.textContent = project.title;
+    
+    titleContainer.appendChild(header);
+}
+
+function clearRightPanel(){
+    const titleContainer = document.querySelector(".right-panel .title");
+    const taskContainer = document.querySelector(".right-panel .list-tasks");
+    
+    titleContainer.innerHTML = "";
+    taskContainer.innerHTML = "";
 }
 
 export {
@@ -82,7 +97,8 @@ export {
     createNoButton,
     createYesButton,
     deleteParent,
-    addProjectClick,
+    renderProjectTab,
     selectTabChange,
-    loadButtonImages
+    loadButtonImages,
+    renderProject
   };
