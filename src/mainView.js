@@ -24,31 +24,32 @@ function loadButtonImages() {
 function selectTabChange(event) {
     const prevSelectedTabButton = document.querySelector(".selected-tab");
 
-    prevSelectedTabButton.classList.remove("selected-tab");
-    prevSelectedTabButton.classList.add("tab");
+    if (prevSelectedTabButton)
+    {
+        prevSelectedTabButton.classList.remove("selected-tab");
+        prevSelectedTabButton.classList.add("tab");
+    }
+
     event.target.classList.add("selected-tab");
 }
 
 function renderProjectTab(project) {
     const container = document.querySelector(".left-panel .projects");
-    const projectTab = createTabButton(project.title);
-    const existingTab = document.querySelector(`[data-project-id="${project.id}"]`)
-    let beforeElement;
+    let projectTab = document.querySelector(`[data-project-id="${project.id}"]`)
 
-    if (existingTab) {
-        beforeElement = existingTab.nextSibling;
-        existingTab.remove();
-        projectTab.classList.add("selected-tab");
+    if (projectTab) {
+        const img = projectTab.querySelector("img");
+
+        projectTab.textContent = project.title;
+        projectTab.prepend(img);
     }
     else
     {
-        beforeElement = document.getElementById("add-project");
-
+        projectTab = createTabButton(project.title);
+        projectTab.classList.add("project-tab");
+        projectTab.dataset.projectId = project.id;
+        container.insertBefore(projectTab, document.getElementById("add-project"));
     }
-
-    projectTab.classList.add("project-tab");
-    projectTab.dataset.projectId = project.id;
-    container.insertBefore(projectTab, beforeElement);
 
     return projectTab;
 }

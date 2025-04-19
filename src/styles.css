@@ -126,7 +126,6 @@ button img {
     vertical-align: middle;
 }
 
-
 .home h2, .projects h2 {
     border-bottom: 2px solid #006A71;
     font-size: 1rem;
@@ -135,4 +134,8 @@ button img {
 
 .project-title:hover, .project-description:hover {
     cursor: pointer;
+}
+
+.edit-input {
+    background-color: var(--background-color);
 }

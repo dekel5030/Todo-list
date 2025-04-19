@@ -18,7 +18,10 @@ function attachTabListeners() {
     const addProjectButton = document.getElementById("add-project");
 
     tabButtons.forEach(button => {
-        button.addEventListener("click", selectTabChange);
+        if (button !== addProjectButton)
+        {
+            button.addEventListener("click", selectTabChange);
+        }
     });
 
     addProjectButton.addEventListener("click", addProject);
@@ -28,12 +31,14 @@ function addProject() {
     const project = addProjectToModel();
     const projectButton = renderProjectTab(project);
 
+    showProject(project);
     projectButton.addEventListener("click", onProjectClick);
 }
 
 function onProjectClick(event) {
     const projectId = event.currentTarget.dataset.projectId;
     const project = getProjectById(projectId);
+    console.log(project);
 
     const {projectHeader, projectDescription} = renderProject(project);
 
@@ -64,4 +69,13 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 
     fieldContainer.appendChild(input);
     input.focus();
+}
+
+function showProject(project) {
+    onProjectClick({ currentTarget: { dataset: { projectId: project.id } } });
+    const selectedButton = document.querySelectorAll(".selected-tab");
+    const projectButton = document.querySelector(`button[data-project-id="${project.id}"]`);
+
+    selectedButton.forEach(button => button.classList.remove("selected-tab"));
+    projectButton.classList.add("selected-tab");
 }
