@@ -1,8 +1,7 @@
 import {
     loadButtonImages,
-    renderProjectTab,
-    selectTabChange,
-    renderProject
+    renderProject,
+    createProjectTab
 } from './mainView.js';
 
 import { addProject as addProjectToModel, getProjectById } from './projectManager.js';
@@ -20,30 +19,33 @@ function attachTabListeners() {
     tabButtons.forEach(button => {
         if (button !== addProjectButton)
         {
-            button.addEventListener("click", selectTabChange);
+            button.addEventListener("click", changeSelectedTab);
         }
     });
 
-    addProjectButton.addEventListener("click", addProject);
+    addProjectButton.addEventListener("click", onAddProjectClick);
+}
+
+function onAddProjectClick(event) {
+    const projectButton = addProject();
+
 }
 
 function addProject() {
     const project = addProjectToModel();
-    const projectButton = renderProjectTab(project);
+    const projectButton = createProjectTab(project);
 
-    showProject(project);
     projectButton.addEventListener("click", onProjectClick);
+    showProject(project);
+    changeSelectedTab({target: projectButton});
 }
 
 function onProjectClick(event) {
     const projectId = event.currentTarget.dataset.projectId;
     const project = getProjectById(projectId);
-    console.log(project);
 
-    const {projectHeader, projectDescription} = renderProject(project);
-
-    projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
-    projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
+    changeSelectedTab(event);
+    showProject(project);
 }
 
 function onProjectFieldDoubleClick(project, field, elementClassName) {
@@ -57,13 +59,13 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 
     input.addEventListener("blur", () => {
         project[field] = input.value;
-        onProjectClick({ currentTarget: { dataset: { projectId: project.id } } });
+        showProject(project);
     });
 
     input.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             project[field] = input.value;
-            onProjectClick({ currentTarget: { dataset: { projectId: project.id } } });
+            showProject(project);
         }
     });
 
@@ -72,10 +74,19 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 }
 
 function showProject(project) {
-    onProjectClick({ currentTarget: { dataset: { projectId: project.id } } });
-    const selectedButton = document.querySelectorAll(".selected-tab");
-    const projectButton = document.querySelector(`button[data-project-id="${project.id}"]`);
+    const {projectHeader, projectDescription} = renderProject(project);
+    
+    projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
+    projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
+}
 
-    selectedButton.forEach(button => button.classList.remove("selected-tab"));
-    projectButton.classList.add("selected-tab");
+function changeSelectedTab(event) {
+    const prevSelectedTabButton = document.querySelector(".selected-tab");
+
+    if (prevSelectedTabButton)
+    {
+        prevSelectedTabButton.classList.remove("selected-tab");
+    }
+
+    event.target.classList.add("selected-tab");
 }

@@ -21,18 +21,6 @@ function loadButtonImages() {
 }
 
 
-function selectTabChange(event) {
-    const prevSelectedTabButton = document.querySelector(".selected-tab");
-
-    if (prevSelectedTabButton)
-    {
-        prevSelectedTabButton.classList.remove("selected-tab");
-        prevSelectedTabButton.classList.add("tab");
-    }
-
-    event.target.classList.add("selected-tab");
-}
-
 function renderProjectTab(project) {
     const container = document.querySelector(".left-panel .projects");
     let projectTab = document.querySelector(`[data-project-id="${project.id}"]`)
@@ -43,15 +31,19 @@ function renderProjectTab(project) {
         projectTab.textContent = project.title;
         projectTab.prepend(img);
     }
-    else
-    {
-        projectTab = createTabButton(project.title);
-        projectTab.classList.add("project-tab");
-        projectTab.dataset.projectId = project.id;
-        container.insertBefore(projectTab, document.getElementById("add-project"));
-    }
 
     return projectTab;
+}
+
+function createProjectTab(project) {
+    const container = document.querySelector(".left-panel .projects");
+    const projectTab = createTabButton(project.title);
+
+    projectTab.classList.add("project-tab");
+    projectTab.dataset.projectId = project.id;
+    container.insertBefore(projectTab, document.getElementById("add-project"));
+
+    return projectTab
 }
 
 
@@ -86,7 +78,6 @@ function createTabButton(text){
     tabImg.src = menuImg;
     tab.appendChild(tabImg);
     tab.innerHTML += text;
-    tab.addEventListener("click", selectTabChange);
 
     return tab;
 }
@@ -126,7 +117,7 @@ export {
     createYesButton,
     deleteParent,
     renderProjectTab,
-    selectTabChange,
     loadButtonImages,
-    renderProject
+    renderProject,
+    createProjectTab
   };

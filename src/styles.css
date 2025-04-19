@@ -107,6 +107,9 @@ button.selected-tab:hover {
 .content .right-panel
 {
     flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .left-panel .home, .left-panel .projects {
@@ -138,4 +141,12 @@ button img {
 
 .edit-input {
     background-color: var(--background-color);
+}
+
+.right-panel .title {
+    background-color: #48A6A7;
+    margin-top: 2rem;
+    padding: 0 1rem;
+    width: 90%;
+    color: #F2EFE7;
 }
