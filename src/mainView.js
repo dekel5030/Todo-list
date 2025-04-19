@@ -3,6 +3,7 @@ import todayImg from './assets/today.png';
 import weekImg from './assets/week.png';
 import starImg from './assets/star.png';
 import menuImg from './assets/menu.png';
+import addImg from './assets/add.png';
 
 function loadButtonImages() {
     const allTask = document.getElementById("all-tasks-img");
@@ -87,6 +88,9 @@ function renderProject(project) {
     const titleContainer = document.querySelector(".right-panel .title");
     const projectHeader = document.createElement("h2");
     const projectDescription = document.createElement("p");
+    const taskListContainer = rightPanel.querySelector(".tasks-list-container");
+    const existingAddButton = taskListContainer.querySelector(".add-task-button");
+    const addTaskButton = createAddTaskButton();
 
     clearRightPanel();
     projectHeader.textContent = project.title;
@@ -96,19 +100,36 @@ function renderProject(project) {
     projectDescription.classList.add("project-description");
     
     titleContainer.append(projectHeader, projectDescription);
+    
+    taskListContainer.appendChild(addTaskButton);
 
     renderProjectTab(project);
 
-    return {projectHeader, projectDescription};
+    return {projectHeader, projectDescription, addTaskButton};
+}
+
+function createAddTaskButton() {
+    const button = document.createElement("button");
+    const img = document.createElement("img");
+
+    img.src = addImg;
+    button.appendChild(img);
+    button.innerHTML += "Add Task";
+    button.classList.add("add-task");
+
+    return button;
 }
 
 
 function clearRightPanel(){
     const titleContainer = document.querySelector(".right-panel .title");
-    const taskContainer = document.querySelector(".right-panel .list-tasks");
-    
+    const taskContainer = document.querySelector(".right-panel .tasks-list-container");
+    const uList = document.createElement("ul");
+
+    uList.classList.add("tasks-list");
     titleContainer.innerHTML = "";
     taskContainer.innerHTML = "";
+    taskContainer.append(uList);
 }
 
 export {
