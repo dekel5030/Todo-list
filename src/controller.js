@@ -65,7 +65,7 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
     input.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             project[field] = input.value;
-            showProject(project);
+            input.blur();
         }
     });
 
@@ -74,10 +74,11 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 }
 
 function showProject(project) {
-    const {projectHeader, projectDescription} = renderProject(project);
+    const {projectHeader, projectDescription, addTaskButton} = renderProject(project);
     
     projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
     projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
+    addTaskButton.addEventListener("click", onAddTaskClick);
 }
 
 function changeSelectedTab(event) {
@@ -89,4 +90,16 @@ function changeSelectedTab(event) {
     }
 
     event.target.classList.add("selected-tab");
+}
+
+function onAddTaskClick(){
+    const form = document.querySelector(".task-form");
+    const cancelButton = form.querySelector(".form-cancel-button");
+
+    cancelButton.addEventListener("click", () => {
+        form.classList.add("hidden"); 
+        console.log("Form canceled");
+    });
+
+    form.classList.remove("hidden");
 }

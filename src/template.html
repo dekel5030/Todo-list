@@ -39,7 +39,22 @@
                 <ul class="tasks-list">
 
                 </ul>
+                <form id="task-form" class="task-form hidden">
+                    <div class="input-field">
+                        <label for="list-input">Title:</label>
+                        <input type="text" id="task-title" placeholder="What to do?">
+                        <label for="task-descriptions">Details(optional):</label>
+                        <textarea type="text" id="task-descriptions" placeholder="eg: I'm just gonna procrastinate, aren't I?"></textarea>
+                        <label for="task-due-date">Date:</label>
+                        <input type="date" id="task-due-date">
+                        <div class="formButtons">
+                            <input type="submit" class="form-submit-button" value="Add">
+                            <input type="button" class="form-cancel-button" value="Cancel">
+                        </div>
+                    </div>
+                </form>
             </div>
+        
         </main>
 
     </div>

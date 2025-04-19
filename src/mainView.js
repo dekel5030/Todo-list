@@ -90,7 +90,7 @@ function renderProject(project) {
     const projectDescription = document.createElement("p");
     const taskListContainer = rightPanel.querySelector(".tasks-list-container");
     const existingAddButton = taskListContainer.querySelector(".add-task-button");
-    const addTaskButton = createAddTaskButton();
+    let addTaskButton;
 
     clearRightPanel();
     projectHeader.textContent = project.title;
@@ -100,15 +100,19 @@ function renderProject(project) {
     projectDescription.classList.add("project-description");
     
     titleContainer.append(projectHeader, projectDescription);
-    
-    taskListContainer.appendChild(addTaskButton);
+
+    if (!existingAddButton)
+    {
+        addTaskButton = createAddTaskButton(project);
+        taskListContainer.append(addTaskButton);
+    }
 
     renderProjectTab(project);
 
     return {projectHeader, projectDescription, addTaskButton};
 }
 
-function createAddTaskButton() {
+function createAddTaskButton(project) {
     const button = document.createElement("button");
     const img = document.createElement("img");
 
@@ -116,6 +120,7 @@ function createAddTaskButton() {
     button.appendChild(img);
     button.innerHTML += "Add Task";
     button.classList.add("add-task");
+    button.dataset.projectId = project.id;
 
     return button;
 }
@@ -124,12 +129,19 @@ function createAddTaskButton() {
 function clearRightPanel(){
     const titleContainer = document.querySelector(".right-panel .title");
     const taskContainer = document.querySelector(".right-panel .tasks-list-container");
-    const uList = document.createElement("ul");
+    const addTaskButton = document.querySelector(".add-task");
+    const listitems = document.querySelectorAll(".tasks-list li");
 
-    uList.classList.add("tasks-list");
+    if (addTaskButton)
+    {
+        addTaskButton.remove();
+    }
+
+    listitems.forEach(item => {
+        item.remove();
+    });
+
     titleContainer.innerHTML = "";
-    taskContainer.innerHTML = "";
-    taskContainer.append(uList);
 }
 
 export {

@@ -1,5 +1,5 @@
 :root {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Alata', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #F2EFE7;
     --background-color: #F2EFE7;
 }
@@ -76,7 +76,16 @@ button.selected-tab:hover {
 }
 
 button.add-task {
-    
+    color: black;
+    background-color: var(--background-color);
+}
+
+button.add-task:hover {
+    background-color: #F8F6F2;
+}
+
+button.add-task:active {
+    transform: scale(0.99); 
 }
 
 .add-mission-button {
@@ -171,4 +180,54 @@ button img {
     align-items: center;
     gap: 1rem;
     width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+form .input-field{
+    background-color: #F8F6F2;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    font-weight: 600;
+}
+
+.formButtons {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.form-submit-button , .form-cancel-button{
+    color: #F2EFE7;
+    font-weight: bold;;
+    background-color: #48A6A7;
+    border-style: none;
+    border-radius: 5px;
+    width: 5rem;
+    height: 2rem;
+}
+
+.form-submit-button {
+    background-color: #48A6A7;
+}
+
+.form-cancel-button {
+    background-color: #C62B26;
+
+}
+
+.form-submit-button:hover {
+    background-color: #006A71;
+}
+
+.form-cancel-button:hover {
+    background-color: #A32A23;
+}
+
+.input-field input {
+    height: 2rem;
 }
