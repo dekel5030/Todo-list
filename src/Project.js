@@ -47,6 +47,14 @@ class Project {
             console.warn("Expected instance of Task");
         }
     }
+
+    deleteTask(task) {
+        const index = this._tasks.indexOf(task);
+
+        if (index !== -1) {
+            this._tasks.splice(index, 1);
+        }
+    }
 }
 
 export default Project;

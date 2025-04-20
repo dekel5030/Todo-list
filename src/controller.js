@@ -127,11 +127,16 @@ function showProject(project) {
     });
 
     document.querySelectorAll(".task-menu-button").forEach(menu => {
-        menu.addEventListener("click", onTaskMenuClick);
+        menu.addEventListener("click", (e) => onTaskMenuClick(e, project));
     })
 }
 
-function onTaskMenuClick(event) {
+function onTaskMenuClick(event, project) {
+    const menu = event.target;
+    const listItem = menu.closest("li");
+    const task = listItem?.task;
+
+    if (!task) return;
     event.stopPropagation();
 
     document.querySelectorAll(".task-submenu").forEach(menu => menu.remove());
@@ -143,13 +148,20 @@ function onTaskMenuClick(event) {
             alert("Edit task!");
         },
         onDelete: () => {
-            alert("Delete task!");
+            deleteTask(project, task);
         }
     });
 
     document.addEventListener("click", () => {
         document.querySelectorAll(".task-submenu").forEach(menu => menu.remove());
     });
+}
+
+function deleteTask(project, task)
+{
+    project.deleteTask(task);
+    showProject(project);
+    saveProjectsToStorage();
 }
 
 function onTaskCheckboxClick(event, taskField) {
