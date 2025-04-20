@@ -185,7 +185,6 @@ function createCompleteCheckBox(task)
 
     Checkbox.classList.add("checkbox");
 
-    console.log(task.isCompleted);
     if (task.isCompleted === true)
     {
         Checkbox.classList.add("checked");

@@ -111,7 +111,14 @@ function showProject(project) {
     });
 
     document.querySelectorAll(".checkbox").forEach(checkbox => {
-        checkbox.addEventListener("click", (e) => onTaskCheckboxClick(e, "isCompleted"))
+        checkbox.addEventListener("click", (e) => {
+            onTaskCheckboxClick(e, "isCompleted");
+            const parent = e.target.parentElement;
+            console.log(parent);
+            const elements = parent.querySelectorAll(".task-title, .task-description");
+            strikethroughElements(elements)
+        }
+        )
     });
     
     document.querySelectorAll(".star-checkbox").forEach(star => {
@@ -131,6 +138,13 @@ function onTaskCheckboxClick(event, taskField) {
     task[taskField] = checkbox.classList.contains("checked");
 
     saveProjectsToStorage();
+}
+
+function strikethroughElements(elements)
+{
+    elements.forEach(element => {
+        element.classList.toggle("strikethrough");
+    });
 }
 
 function changeSelectedTab(event) {
