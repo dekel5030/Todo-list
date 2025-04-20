@@ -3,7 +3,7 @@ import Task from "./Task";
 class Project {
     static #idCounter = 1;
 
-    constructor({ title, description, id, missions } = {}) {
+    constructor({ title, description, id, tasks } = {}) {
         if (typeof id === 'number') {
             this._id = id;
             Project.#idCounter = Math.max(Project.#idCounter, id + 1);
@@ -13,7 +13,7 @@ class Project {
 
         this._title = title ?? `Untitled Project ${this._id}`;
         this._description = description ?? "None";
-        this._missions = missions ?? [];
+        this._tasks = tasks ?? [];
     }
 
     get id() {
@@ -36,13 +36,13 @@ class Project {
         this._description = value;
     }
   
-    get missions() {
-        return this._missions;
+    get tasks() {
+        return this._tasks;
     }
   
     addTask(task) {
-        if (listItem instanceof Task) {
-            this._missions.push(listItem);
+        if (task instanceof Task) {
+            this._tasks.push(task);
         } else {
             console.warn("Expected instance of Task");
         }

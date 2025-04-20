@@ -68,7 +68,6 @@ function onProjectClick(event) {
 
 function onProjectFieldDoubleClick(project, field, elementClassName) {
     const fieldContainer = document.querySelector(`.right-panel .title .${elementClassName}`);
-    console.log(fieldContainer);
     fieldContainer.innerHTML = "";
 
     const input = document.createElement("input");
@@ -95,20 +94,21 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 function showProject(project) {
     const {projectHeader, projectDescription, addTaskButton} = renderProject(project);
     const form = document.querySelector(".task-form");
-    const cancelButton = form.querySelector(".form-cancel-button");
-    const submitButton = form.querySelector(".form-submit-button");
+    const newForm = form.cloneNode(true);
+    form.replaceWith(newForm);
+    const cancelButton = newForm.querySelector(".form-cancel-button");
+    const submitButton = newForm.querySelector(".form-submit-button");
 
     projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
     projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
     addTaskButton.addEventListener("click", onAddTaskClick);
     cancelButton.addEventListener("click", () => {
-        form.classList.add("hidden"); 
+        newForm.classList.add("hidden"); 
     });
-    form.addEventListener("submit", (e) => {
+    newForm.addEventListener("submit", (e) => {
         e.preventDefault();
         formTaskSubmit(e, project);
     });
-
 }
 
 function changeSelectedTab(event) {
@@ -137,10 +137,12 @@ function formTaskSubmit(e, project) {
         description.value.trim(),
         dueDate.value
     );
+    console.log(newTask);
 
     project.addTask(newTask);
 
     form.reset();
     form.classList.add("hidden");
     showProject(project);
+    saveProjectsToStorage();
 }

@@ -1,5 +1,5 @@
 import Project from './Project.js';
-
+import Task from './Task.js';
 
 const STORAGE_KEY = 'TodoList.projects';
 const projects = [];
@@ -31,15 +31,27 @@ function loadProjectsFromStorage() {
 
     try {
         const parsed = JSON.parse(data);
-        projects.length = 0; 
-        projects.push(...parsed.map(p => Object.assign(new Project(), p)));
+
+        projects.length = 0;
+
+        projects.push(...parsed.map(p => {
+            const tasks = (p._tasks || []).map(t => new Task(t._title, t._description, t._dueDate, t._priority));
+
+            return new Project({
+                title: p._title,
+                description: p._description,
+                id: p._id,
+                tasks: tasks
+            });
+        }));
     } catch (e) {
         console.error('Failed to load projects:', e);
-        projects.length = 0;
+        projects.length = 0; // Reset projects in case of error
     }
 
     return projects;
 }
+
 
 
 export {

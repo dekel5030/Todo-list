@@ -89,6 +89,7 @@ function renderProject(project) {
     const projectHeader = document.createElement("h2");
     const projectDescription = document.createElement("p");
     const taskListContainer = rightPanel.querySelector(".tasks-list-container");
+    const taskList = taskListContainer.querySelector("ul");
     const existingAddButton = taskListContainer.querySelector(".add-task-button");
     let addTaskButton;
 
@@ -106,6 +107,12 @@ function renderProject(project) {
         addTaskButton = createAddTaskButton(project);
         taskListContainer.append(addTaskButton);
     }
+
+    project.tasks.forEach(task => {
+        const taskButton = createTaskButton(task);
+
+        taskList.append(taskButton);
+    });
 
     renderProjectTab(project);
 
@@ -125,6 +132,36 @@ function createAddTaskButton(project) {
     return button;
 }
 
+function createTaskButton(task){
+    const listItem = document.createElement("li");
+    const divCheckIcon = document.createElement("div");
+    const divTaskDetails = document.createElement("div");
+    const divTaskTitle = document.createElement("div");
+    const divTaskDescription = document.createElement("div");
+    const divtaskDueDate = document.createElement("div");
+    const divRightButtons = document.createElement("div");
+
+    divCheckIcon.classList.add("checkbox");
+    divCheckIcon.classList.add("unchecked");
+
+    divTaskDetails.classList.add("task-details");
+
+    divTaskTitle.classList.add("task-title");
+    divTaskTitle.textContent = task.title;
+
+    divTaskDescription.classList.add("task-description");
+    divTaskDescription.textContent = task.description;
+    divTaskDetails.append(divTaskTitle, divTaskDescription);
+
+    divtaskDueDate.classList.add("task-due-date");
+    divtaskDueDate.textContent = task.dueDate;
+
+    divRightButtons.classList.add("task-right-buttons");
+
+    listItem.append(divCheckIcon, divTaskDetails, divtaskDueDate, divRightButtons);
+
+    return listItem;
+}
 
 function clearRightPanel(){
     const titleContainer = document.querySelector(".right-panel .title");
