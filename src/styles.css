@@ -240,6 +240,11 @@ ul {
     padding-left: 0;
 }
 
+li:hover{
+    background-color: #F8F6F2;
+}
+
+
 .tasks-list-container ul li {
     display: flex;
     justify-content: flex-start;
@@ -293,6 +298,17 @@ ul {
     font-size: 16px;
 }
 
+.task-right-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.task-menu-button {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
 .star-checkbox {
     width: 24px;
     height: 24px;
@@ -313,3 +329,29 @@ ul {
     color: #888;
     font-style: italic;
 }
+
+.task-submenu {
+    position: absolute;
+    top: -250%;
+    left: -125%;
+    display: flex;
+    font-size: 3rem;
+    background-color: white;
+    border-radius: 10%;
+}
+
+.submenu-item {
+    display: flex;
+    justify-content: center;
+    width: 3rem;
+}
+
+.submenu-item:hover {
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #ECECEC;
+}
+
+.task-menu-button {
+    position: relative;
+  }

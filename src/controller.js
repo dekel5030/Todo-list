@@ -1,10 +1,11 @@
 import {
     loadButtonImages,
     renderProject,
-    createProjectTab
+    createProjectTab,
+    showTaskMenu
 } from './mainView.js';
 
-import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage } from './projectManager.js';
+import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage } from './ProjectManager.js';
 
 import Task from './Task.js';
 
@@ -123,6 +124,31 @@ function showProject(project) {
     
     document.querySelectorAll(".star-checkbox").forEach(star => {
         star.addEventListener("click", (e) => onTaskCheckboxClick(e, "priority"))
+    });
+
+    document.querySelectorAll(".task-menu-button").forEach(menu => {
+        menu.addEventListener("click", onTaskMenuClick);
+    })
+}
+
+function onTaskMenuClick(event) {
+    event.stopPropagation();
+
+    document.querySelectorAll(".task-submenu").forEach(menu => menu.remove());
+
+    const button = event.currentTarget;
+
+    showTaskMenu(button, {
+        onEdit: () => {
+            alert("Edit task!");
+        },
+        onDelete: () => {
+            alert("Delete task!");
+        }
+    });
+
+    document.addEventListener("click", () => {
+        document.querySelectorAll(".task-submenu").forEach(menu => menu.remove());
     });
 }
 

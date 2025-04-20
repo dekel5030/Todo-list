@@ -135,32 +135,45 @@ function createAddTaskButton(project) {
 function createTaskButton(task){
     const listItem = document.createElement("li");
     const divCheckIcon = createCompleteCheckBox(task);
-    const divTaskDetails = document.createElement("div");
-    const divTaskTitle = document.createElement("div");
-    const divTaskDescription = document.createElement("div");
+    const divTaskDetails = createTaskDetails(task);
     const divtaskDueDate = document.createElement("div");
     const starCheckbox = createTaskStarCheckBox(task);
     const divRightButtons = document.createElement("div");
-
-    divTaskDetails.classList.add("task-details");
-
-    divTaskTitle.classList.add("task-title");
-    divTaskTitle.textContent = task.title;
-
-    divTaskDescription.classList.add("task-description");
-    divTaskDescription.textContent = task.description;
-    divTaskDetails.append(divTaskTitle, divTaskDescription);
+    const menuButton = document.createElement("div");
+    menuButton.classList.add("task-menu-button");
+    menuButton.innerHTML = taskMenuSvg;
 
     divtaskDueDate.classList.add("task-due-date");
     divtaskDueDate.textContent = task.dueDate;
 
     divRightButtons.classList.add("task-right-buttons");
-    divRightButtons.append(starCheckbox);
+    divRightButtons.append(starCheckbox, menuButton);
 
     listItem.task = task;
     listItem.append(divCheckIcon, divTaskDetails, divtaskDueDate, divRightButtons);
 
     return listItem;
+}
+
+function createTaskDetails(task) {
+    const divTaskDetails = document.createElement("div");
+    const divTaskTitle = document.createElement("div");
+    const divTaskDescription = document.createElement("div");
+
+    divTaskDetails.classList.add("task-details");
+    divTaskTitle.classList.add("task-title");
+    divTaskTitle.textContent = task.title;
+    divTaskDescription.classList.add("task-description");
+    divTaskDescription.textContent = task.description;
+    if (task.isCompleted)
+    {
+        divTaskDescription.classList.add("strikethrough");
+        divTaskTitle.classList.add("strikethrough");
+    }
+
+    divTaskDetails.append(divTaskTitle, divTaskDescription);
+
+    return divTaskDetails;
 }
 
 function createTaskStarCheckBox(task){
@@ -215,6 +228,48 @@ function clearRightPanel(){
     titleContainer.innerHTML = "";
 }
 
+function showTaskMenu(container, { onEdit, onDelete }) {
+    const submenu = document.createElement("div");
+    submenu.classList.add("task-submenu");
+
+    const editOption = document.createElement("div");
+    editOption.classList.add("submenu-item");
+    editOption.textContent = "✏️";
+    editOption.addEventListener("click", (e) => {
+        e.stopPropagation();
+        onEdit();
+        submenu.remove();
+    });
+
+    const deleteOption = document.createElement("div");
+    deleteOption.classList.add("submenu-item");
+    deleteOption.textContent = "🗑️";
+    deleteOption.addEventListener("click", (e) => {
+        e.stopPropagation();
+        onDelete();
+        submenu.remove();
+    });
+
+    submenu.append(editOption, deleteOption);
+
+    // Remove existing submenu if any
+    const existing = container.querySelector(".task-submenu");
+    if (existing) existing.remove();
+
+    container.appendChild(submenu);
+}
+
+
+const taskMenuSvg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         class="feather feather-more-vertical">
+      <circle cx="12" cy="5" r="1"/>
+      <circle cx="12" cy="12" r="1"/>
+      <circle cx="12" cy="19" r="1"/>
+    </svg>
+  `
+
 export {
     createTabButton,
     createNoButton,
@@ -223,5 +278,6 @@ export {
     renderProjectTab,
     loadButtonImages,
     renderProject,
-    createProjectTab
+    createProjectTab,
+    showTaskMenu
   };
