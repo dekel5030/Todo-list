@@ -259,6 +259,20 @@ function showTaskMenu(container, { onEdit, onDelete }) {
     container.appendChild(submenu);
 }
 
+function createEditTaskForm(task) {
+    const originalForm = document.getElementById("task-form");
+    const clonedForm = originalForm.cloneNode(true);
+
+    clonedForm.classList.remove("hidden");
+    clonedForm.removeAttribute("id");
+
+    clonedForm.querySelector('input[name="title"]').value = task.title;
+    clonedForm.querySelector('textarea[name="description"]').value = task.description || "";
+    clonedForm.querySelector('input[name="dueDate"]').value = task.dueDate || "";
+
+    return clonedForm;
+}
+
 
 const taskMenuSvg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
@@ -279,5 +293,6 @@ export {
     loadButtonImages,
     renderProject,
     createProjectTab,
-    showTaskMenu
+    showTaskMenu,
+    createEditTaskForm
   };

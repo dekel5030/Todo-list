@@ -2,7 +2,8 @@ import {
     loadButtonImages,
     renderProject,
     createProjectTab,
-    showTaskMenu
+    showTaskMenu,
+    createEditTaskForm
 } from './mainView.js';
 
 import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage } from './ProjectManager.js';
@@ -145,7 +146,7 @@ function onTaskMenuClick(event, project) {
 
     showTaskMenu(button, {
         onEdit: () => {
-            alert("Edit task!");
+            editTask(task, menu)
         },
         onDelete: () => {
             deleteTask(project, task);
@@ -162,6 +163,15 @@ function deleteTask(project, task)
     project.deleteTask(task);
     showProject(project);
     saveProjectsToStorage();
+}
+
+function editTask(task, taskElement)
+{
+    const form = createEditTaskForm(task);
+    const taskListItem = taskElement.closest("li");
+    const container = taskListItem.parentElement;
+    
+    container.insertBefore(form, taskListItem);
 }
 
 function onTaskCheckboxClick(event, taskField) {
