@@ -139,6 +139,7 @@ function createTaskButton(task){
     const divTaskTitle = document.createElement("div");
     const divTaskDescription = document.createElement("div");
     const divtaskDueDate = document.createElement("div");
+    const starCheckbox = document.createElement("div");
     const divRightButtons = document.createElement("div");
 
     divCheckIcon.classList.add("checkbox");
@@ -156,7 +157,11 @@ function createTaskButton(task){
     divtaskDueDate.classList.add("task-due-date");
     divtaskDueDate.textContent = task.dueDate;
 
+    starCheckbox.classList.add("star-checkbox");
+    starCheckbox.classList.add("unchecked");
+
     divRightButtons.classList.add("task-right-buttons");
+    divRightButtons.append(starCheckbox);
 
     listItem.append(divCheckIcon, divTaskDetails, divtaskDueDate, divRightButtons);
 

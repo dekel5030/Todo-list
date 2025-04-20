@@ -46,7 +46,7 @@ function loadProjectsFromStorage() {
         }));
     } catch (e) {
         console.error('Failed to load projects:', e);
-        projects.length = 0; // Reset projects in case of error
+        projects.length = 0;
     }
 
     return projects;

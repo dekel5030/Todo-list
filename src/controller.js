@@ -109,6 +109,21 @@ function showProject(project) {
         e.preventDefault();
         formTaskSubmit(e, project);
     });
+
+    document.querySelectorAll(".checkbox").forEach(checkbox => {
+        checkbox.addEventListener("click", (e) => {
+            e.target.classList.toggle("checked");
+            e.target.classList.toggle("unchecked");
+            console.log("first");
+        });
+    });
+    
+    document.querySelectorAll(".star-checkbox").forEach(star => {
+        star.addEventListener("click", (e) => {
+            e.target.classList.toggle("checked");
+            e.target.classList.toggle("unchecked");
+        });
+    });
 }
 
 function changeSelectedTab(event) {
@@ -137,7 +152,6 @@ function formTaskSubmit(e, project) {
         description.value.trim(),
         dueDate.value
     );
-    console.log(newTask);
 
     project.addTask(newTask);
 

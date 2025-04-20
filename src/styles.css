@@ -231,3 +231,49 @@ form .input-field{
 .input-field input {
     height: 2rem;
 }
+
+.tasks-list-container ul li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid green;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+  }
+  
+  .checkbox.unchecked {
+    background-color: transparent;
+  }
+  
+  .checkbox.checked {
+    background-color: green;
+  }
+  
+  .checkbox.checked::after {
+    content: "✔";
+    color: white;
+    font-size: 16px;
+  }
+
+  .star-checkbox {
+    width: 32px;
+    height: 32px;
+    background-size: cover;
+    cursor: pointer;
+  }
+  
+  .star-checkbox.unchecked {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>');
+  }
+  
+  .star-checkbox.checked {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23FEC810" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>');
+  }
