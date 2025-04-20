@@ -4,13 +4,32 @@ import {
     createProjectTab
 } from './mainView.js';
 
-import { addProject as addProjectToModel, getProjectById } from './projectManager.js';
+import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage } from './projectManager.js';
+
+import Task from './Task.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     loadButtonImages();
     attachTabListeners();
+    loadProjects();
 });
 
+function loadProjects() {
+    const projects = loadProjectsFromStorage();
+    
+    projects.forEach(project => {
+        createProjectTabButton(project);
+    });
+}
+
+function createProjectTabButton(project)
+{
+    const projectButton = createProjectTab(project);
+
+    projectButton.addEventListener("click", onProjectClick);
+
+    return projectButton;
+}
 
 function attachTabListeners() {
     const tabButtons = document.querySelectorAll("button.tab, button.selected-tab");
@@ -28,16 +47,15 @@ function attachTabListeners() {
 
 function onAddProjectClick(event) {
     const projectButton = addProject();
-
 }
 
 function addProject() {
     const project = addProjectToModel();
-    const projectButton = createProjectTab(project);
-
-    projectButton.addEventListener("click", onProjectClick);
+    const projectButton = createProjectTabButton(project);
+    
     showProject(project);
     changeSelectedTab({target: projectButton});
+    saveProjectsToStorage();
 }
 
 function onProjectClick(event) {
@@ -60,6 +78,7 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
     input.addEventListener("blur", () => {
         project[field] = input.value;
         showProject(project);
+        saveProjectsToStorage();
     });
 
     input.addEventListener("keydown", (event) => {
@@ -75,10 +94,21 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 
 function showProject(project) {
     const {projectHeader, projectDescription, addTaskButton} = renderProject(project);
-    
+    const form = document.querySelector(".task-form");
+    const cancelButton = form.querySelector(".form-cancel-button");
+    const submitButton = form.querySelector(".form-submit-button");
+
     projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
     projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
     addTaskButton.addEventListener("click", onAddTaskClick);
+    cancelButton.addEventListener("click", () => {
+        form.classList.add("hidden"); 
+    });
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        formTaskSubmit(e, project);
+    });
+
 }
 
 function changeSelectedTab(event) {
@@ -94,12 +124,23 @@ function changeSelectedTab(event) {
 
 function onAddTaskClick(){
     const form = document.querySelector(".task-form");
-    const cancelButton = form.querySelector(".form-cancel-button");
-
-    cancelButton.addEventListener("click", () => {
-        form.classList.add("hidden"); 
-        console.log("Form canceled");
-    });
 
     form.classList.remove("hidden");
+}
+
+function formTaskSubmit(e, project) {
+    const form = e.target;
+    const { title, description, dueDate } = form.elements;
+
+    const newTask = new Task(
+        title.value.trim(),
+        description.value.trim(),
+        dueDate.value
+    );
+
+    project.addTask(newTask);
+
+    form.reset();
+    form.classList.add("hidden");
+    showProject(project);
 }

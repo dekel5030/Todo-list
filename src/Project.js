@@ -1,11 +1,19 @@
+import Task from "./Task";
+
 class Project {
     static #idCounter = 1;
 
-    constructor(title = `Project ${Project.#idCounter}`, description = "None") {
-        this._id = Project.#idCounter++;
-        this._title = title;
-        this._description = description;
-        this._missions = [];
+    constructor({ title, description, id, missions } = {}) {
+        if (typeof id === 'number') {
+            this._id = id;
+            Project.#idCounter = Math.max(Project.#idCounter, id + 1);
+        } else {
+            this._id = Project.#idCounter++;
+        }
+
+        this._title = title ?? `Untitled Project ${this._id}`;
+        this._description = description ?? "None";
+        this._missions = missions ?? [];
     }
 
     get id() {
@@ -32,11 +40,11 @@ class Project {
         return this._missions;
     }
   
-    addMission(listItem) {
-        if (listItem instanceof ListItem) {
+    addTask(task) {
+        if (listItem instanceof Task) {
             this._missions.push(listItem);
         } else {
-            console.warn("Expected instance of ListItem");
+            console.warn("Expected instance of Task");
         }
     }
 }

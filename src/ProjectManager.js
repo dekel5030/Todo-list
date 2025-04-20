@@ -1,5 +1,7 @@
 import Project from './Project.js';
 
+
+const STORAGE_KEY = 'TodoList.projects';
 const projects = [];
 
 function addProject() {
@@ -18,8 +20,32 @@ function getProjectById(id) {
     return projects.find(project => project.id === parseInt(id, 10));
 }
 
+function saveProjectsToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+}
+
+function loadProjectsFromStorage() {
+    const data = localStorage.getItem(STORAGE_KEY);
+
+    if (!data) return [];
+
+    try {
+        const parsed = JSON.parse(data);
+        projects.length = 0; 
+        projects.push(...parsed.map(p => Object.assign(new Project(), p)));
+    } catch (e) {
+        console.error('Failed to load projects:', e);
+        projects.length = 0;
+    }
+
+    return projects;
+}
+
+
 export {
     addProject,
     getAllProjects,
-    getProjectById
+    getProjectById,
+    saveProjectsToStorage,
+    loadProjectsFromStorage
 };
