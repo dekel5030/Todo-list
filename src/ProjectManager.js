@@ -35,7 +35,7 @@ function loadProjectsFromStorage() {
         projects.length = 0;
 
         projects.push(...parsed.map(p => {
-            const tasks = (p._tasks || []).map(t => new Task(t._title, t._description, t._dueDate, t._priority));
+            const tasks = (p._tasks || []).map(t => new Task(t._title, t._description, t._dueDate, t._priority, t._isCompleted));
 
             return new Project({
                 title: p._title,

@@ -111,19 +111,26 @@ function showProject(project) {
     });
 
     document.querySelectorAll(".checkbox").forEach(checkbox => {
-        checkbox.addEventListener("click", (e) => {
-            e.target.classList.toggle("checked");
-            e.target.classList.toggle("unchecked");
-            console.log("first");
-        });
+        checkbox.addEventListener("click", (e) => onTaskCheckboxClick(e, "isCompleted"))
     });
     
     document.querySelectorAll(".star-checkbox").forEach(star => {
-        star.addEventListener("click", (e) => {
-            e.target.classList.toggle("checked");
-            e.target.classList.toggle("unchecked");
-        });
+        star.addEventListener("click", (e) => onTaskCheckboxClick(e, "priority"))
     });
+}
+
+function onTaskCheckboxClick(event, taskField) {
+    const checkbox = event.target;
+    const listItem = checkbox.closest("li");
+    const task = listItem?.task;
+
+    if (!task) return;
+    checkbox.classList.toggle("checked");
+    checkbox.classList.toggle("unchecked");
+
+    task[taskField] = checkbox.classList.contains("checked");
+
+    saveProjectsToStorage();
 }
 
 function changeSelectedTab(event) {

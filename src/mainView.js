@@ -134,16 +134,13 @@ function createAddTaskButton(project) {
 
 function createTaskButton(task){
     const listItem = document.createElement("li");
-    const divCheckIcon = document.createElement("div");
+    const divCheckIcon = createCompleteCheckBox(task);
     const divTaskDetails = document.createElement("div");
     const divTaskTitle = document.createElement("div");
     const divTaskDescription = document.createElement("div");
     const divtaskDueDate = document.createElement("div");
-    const starCheckbox = document.createElement("div");
+    const starCheckbox = createTaskStarCheckBox(task);
     const divRightButtons = document.createElement("div");
-
-    divCheckIcon.classList.add("checkbox");
-    divCheckIcon.classList.add("unchecked");
 
     divTaskDetails.classList.add("task-details");
 
@@ -157,15 +154,48 @@ function createTaskButton(task){
     divtaskDueDate.classList.add("task-due-date");
     divtaskDueDate.textContent = task.dueDate;
 
-    starCheckbox.classList.add("star-checkbox");
-    starCheckbox.classList.add("unchecked");
-
     divRightButtons.classList.add("task-right-buttons");
     divRightButtons.append(starCheckbox);
 
+    listItem.task = task;
     listItem.append(divCheckIcon, divTaskDetails, divtaskDueDate, divRightButtons);
 
     return listItem;
+}
+
+function createTaskStarCheckBox(task){
+    const starCheckbox = document.createElement("div");
+
+    starCheckbox.classList.add("star-checkbox");
+    if (task.priority === true)
+    {
+        starCheckbox.classList.add("checked");
+    }
+    else
+    {
+        starCheckbox.classList.add("unchecked");
+    }
+
+    return starCheckbox;
+}
+
+function createCompleteCheckBox(task)
+{
+    const Checkbox = document.createElement("div");
+
+    Checkbox.classList.add("checkbox");
+
+    console.log(task.isCompleted);
+    if (task.isCompleted === true)
+    {
+        Checkbox.classList.add("checked");
+    }
+    else
+    {
+        Checkbox.classList.add("unchecked");
+    }
+
+    return Checkbox;
 }
 
 function clearRightPanel(){
