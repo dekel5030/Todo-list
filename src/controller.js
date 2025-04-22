@@ -99,7 +99,6 @@ function showProject(project) {
     const newForm = form.cloneNode(true);
     form.replaceWith(newForm);
     const cancelButton = newForm.querySelector(".form-cancel-button");
-    const submitButton = newForm.querySelector(".form-submit-button");
 
     projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
     projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
@@ -146,7 +145,7 @@ function onTaskMenuClick(event, project) {
 
     showTaskMenu(button, {
         onEdit: () => {
-            editTask(task, menu)
+            editTask(project, task, menu)
         },
         onDelete: () => {
             deleteTask(project, task);
@@ -165,13 +164,36 @@ function deleteTask(project, task)
     saveProjectsToStorage();
 }
 
-function editTask(task, taskElement)
+function editTask(project, task, taskElement)
 {
     const form = createEditTaskForm(task);
     const taskListItem = taskElement.closest("li");
     const container = taskListItem.parentElement;
-    
+    const cancelButton = form.querySelector(".form-cancel-button");
+
+
+    form.addEventListener("submit",(e) => {
+        e.preventDefault();
+        form.remove();
+        formEditTaskSubmit(e, project, task);
+    });
+
+    cancelButton.addEventListener("click", () => form.remove());
     container.insertBefore(form, taskListItem);
+}
+
+function formEditTaskSubmit(e, project, task) {
+    const form = e.target;
+    const { title, description, dueDate } = form.elements;
+    console.log(task);
+
+    task.title = title.value;
+    task.description = description.value;
+    task.dueDate = dueDate.value;
+    console.log(task);
+
+    saveProjectsToStorage();
+    showProject(project);
 }
 
 function onTaskCheckboxClick(event, taskField) {
@@ -207,7 +229,7 @@ function changeSelectedTab(event) {
 }
 
 function onAddTaskClick(){
-    const form = document.querySelector(".task-form");
+    const form = document.querySelector("#task-form");
 
     form.classList.remove("hidden");
 }
