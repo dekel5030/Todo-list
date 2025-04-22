@@ -95,11 +95,12 @@ function onProjectFieldDoubleClick(project, field, elementClassName) {
 
 function showProject(project) {
     const {projectHeader, projectDescription, addTaskButton} = renderProject(project);
-    const form = document.querySelector(".task-form");
+    const form = document.querySelector("#task-form");
     const newForm = form.cloneNode(true);
-    form.replaceWith(newForm);
     const cancelButton = newForm.querySelector(".form-cancel-button");
 
+    form.replaceWith(newForm);
+    newForm.classList.add("hidden");
     projectHeader.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'title', 'project-title'));
     projectDescription.addEventListener("dblclick", () => onProjectFieldDoubleClick(project, 'description', 'project-description'));
     addTaskButton.addEventListener("click", onAddTaskClick);
@@ -166,11 +167,11 @@ function deleteTask(project, task)
 
 function editTask(project, task, taskElement)
 {
+    document.querySelectorAll(".task-edit-form").forEach(form => form.remove());
     const form = createEditTaskForm(task);
     const taskListItem = taskElement.closest("li");
     const container = taskListItem.parentElement;
     const cancelButton = form.querySelector(".form-cancel-button");
-
 
     form.addEventListener("submit",(e) => {
         e.preventDefault();

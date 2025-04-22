@@ -215,6 +215,7 @@ function clearRightPanel(){
     const taskContainer = document.querySelector(".right-panel .tasks-list-container");
     const addTaskButton = document.querySelector(".add-task");
     const listitems = document.querySelectorAll(".tasks-list li");
+    const editForms = document.querySelectorAll(".task-edit-form").forEach(form => form.remove());
 
     if (addTaskButton)
     {
@@ -252,7 +253,6 @@ function showTaskMenu(container, { onEdit, onDelete }) {
 
     submenu.append(editOption, deleteOption);
 
-    // Remove existing submenu if any
     const existing = container.querySelector(".task-submenu");
     if (existing) existing.remove();
 
@@ -265,6 +265,7 @@ function createEditTaskForm(task) {
 
     clonedForm.classList.remove("hidden");
     clonedForm.removeAttribute("id");
+    clonedForm.classList.add("task-edit-form");
 
     clonedForm.querySelector('input[name="title"]').value = task.title;
     clonedForm.querySelector('textarea[name="description"]').value = task.description || "";
