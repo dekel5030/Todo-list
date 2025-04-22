@@ -101,11 +101,11 @@ function renderProject(project) {
     projectDescription.classList.add("project-description");
     
     titleContainer.append(projectHeader, projectDescription);
-
     if (!existingAddButton)
     {
         addTaskButton = createAddTaskButton(project);
         taskListContainer.append(addTaskButton);
+
     }
 
     project.tasks.forEach(task => {
@@ -122,13 +122,13 @@ function renderProject(project) {
 function createAddTaskButton(project) {
     const button = document.createElement("button");
     const img = document.createElement("img");
-
+    
     img.src = addImg;
     button.appendChild(img);
     button.innerHTML += "Add Task";
     button.classList.add("add-task");
     button.dataset.projectId = project.id;
-
+    
     return button;
 }
 

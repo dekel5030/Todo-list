@@ -6,9 +6,10 @@ import {
     createEditTaskForm
 } from './mainView.js';
 
-import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage } from './ProjectManager.js';
+import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage, getAllProjects } from './ProjectManager.js';
 
 import Task from './Task.js';
+import Project from './Project.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     loadButtonImages();
@@ -36,6 +37,10 @@ function createProjectTabButton(project)
 function attachTabListeners() {
     const tabButtons = document.querySelectorAll("button.tab, button.selected-tab");
     const addProjectButton = document.getElementById("add-project");
+    const allTasksTab = document.getElementById("all-tasks-tab").addEventListener("click", showAllTasks);
+    const todayTasksTab = document.getElementById("today-tasks-tab").addEventListener("click", showTodayTasks);
+    const nextWeekTasksTab = document.getElementById("next-week-tasks-tab").addEventListener("click", showNextWeekTasks);
+    const importantasksTab = document.getElementById("important-tasks-tab").addEventListener("click", showImportantTasks);
 
     tabButtons.forEach(button => {
         if (button !== addProjectButton)
@@ -130,6 +135,8 @@ function showProject(project) {
     document.querySelectorAll(".task-menu-button").forEach(menu => {
         menu.addEventListener("click", (e) => onTaskMenuClick(e, project));
     })
+
+    return {projectHeader, projectDescription, addTaskButton};
 }
 
 function onTaskMenuClick(event, project) {
@@ -251,4 +258,85 @@ function formTaskSubmit(e, project) {
     form.classList.add("hidden");
     showProject(project);
     saveProjectsToStorage();
+}
+
+
+function showAllTasks()
+{
+    const project = new Project({ title: "All Tasks", description: "" });
+    const allTasks = [];
+
+    getAllProjects().forEach(project => {
+        project.tasks.forEach(task => {
+            allTasks.push(task);
+        });
+    });
+
+    project.tasks = allTasks;
+
+    const {projectHeader, projectDescription, addTaskButton} = showProject(project);
+    addTaskButton.remove();
+}
+
+function showTodayTasks()
+{
+    const project = new Project({ title: "Today", description: "" });
+    const todayTasks = [];
+
+    getAllProjects().forEach(project => {
+        project.tasks.forEach(task => {
+            if (task.dueDate != null && task.dueDate === new Date().toISOString().split('T')[0]) {
+                todayTasks.push(task);
+            }
+        });
+    });
+
+    project.tasks = todayTasks;
+
+    const {projectHeader, projectDescription, addTaskButton} = showProject(project);
+    addTaskButton.remove();
+}
+
+function showNextWeekTasks()
+{
+    const project = new Project({ title: "Next Week", description: "" });
+    const today = new Date();
+    const sevenDaysAhead = new Date();
+    const weekTasks = [];
+
+    sevenDaysAhead.setDate(today.getDate() + 7);
+    getAllProjects().forEach(project => {
+        project.tasks.forEach(task => {
+            if (task.dueDate != null) {
+                const taskDueDate = new Date(task.dueDate);
+                if (taskDueDate.toISOString().split('T')[0] === today.toISOString().split('T')[0] || 
+                    (taskDueDate >= today && taskDueDate <= sevenDaysAhead)) {
+                        weekTasks.push(task);
+                }
+            }
+        });
+    });
+    project.tasks = weekTasks;
+
+    const {projectHeader, projectDescription, addTaskButton} = showProject(project);
+    addTaskButton.remove();
+}
+
+function showImportantTasks()
+{
+    const project = new Project({ title: "Important", description: "" });
+    const todayTasks = [];
+
+    getAllProjects().forEach(project => {
+        project.tasks.forEach(task => {
+            if (task.priority == true) {
+                todayTasks.push(task);
+            }
+        });
+    });
+
+    project.tasks = todayTasks;
+
+    const {projectHeader, projectDescription, addTaskButton} = showProject(project);
+    addTaskButton.remove();
 }

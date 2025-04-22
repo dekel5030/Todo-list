@@ -39,6 +39,10 @@ class Project {
     get tasks() {
         return this._tasks;
     }
+
+    set tasks(value) {
+        this._tasks = value;
+    }
   
     addTask(task) {
         if (task instanceof Task) {
