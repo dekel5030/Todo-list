@@ -159,6 +159,10 @@ button img {
     gap: 1rem;
 }
 
+.right-panel.expanded {
+    flex: 1;
+}
+
 .right-panel .title {
     background-color: #48A6A7;
     width: 100%;
@@ -356,3 +360,19 @@ li:hover{
 .task-menu-button {
     position: relative;
   }
+
+.trash-button {
+    position: absolute;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 5px; 
+    background-color: white;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    display: inline-flex;
+    align-items: center; 
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 2rem;
+}

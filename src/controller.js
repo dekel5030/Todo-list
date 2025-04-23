@@ -3,10 +3,13 @@ import {
     renderProject,
     createProjectTab,
     showTaskMenu,
-    createEditTaskForm
+    createEditTaskForm,
+    deleteProjectTab,
+    createTrashButton,
+    placeElementOnCursor
 } from './mainView.js';
 
-import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage, getAllProjects } from './ProjectManager.js';
+import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage, getAllProjects, deleteProjectFromStorage } from './ProjectManager.js';
 
 import Task from './Task.js';
 import Project from './Project.js';
@@ -15,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadButtonImages();
     attachTabListeners();
     loadProjects();
+    showAllTasks();
 });
 
 function loadProjects() {
@@ -31,7 +35,41 @@ function createProjectTabButton(project)
 
     projectButton.addEventListener("click", onProjectClick);
 
+    projectButton.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        onProjectRightClick(event, project);
+    });
+
     return projectButton;
+}
+
+function onProjectRightClick(event, project)
+{
+    const existingTrashButtons = document.querySelectorAll(".trash-button");
+    const trashButton = createTrashButton(event, project);
+
+    existingTrashButtons.forEach(button => button.remove());
+    trashButton.addEventListener("click", () => {
+        trashButton.remove();
+        deleteProject(project);
+    })
+    
+    placeElementOnCursor(event, trashButton);
+
+    function onOutsideClick(e) {
+        if (!trashButton.contains(e.target)) {
+            trashButton.remove();
+            document.removeEventListener("pointerdown", onOutsideClick);
+        }
+    }
+
+    document.addEventListener("pointerdown", onOutsideClick);
+}
+
+function deleteProject(project) {
+    deleteProjectFromStorage(project);
+    deleteProjectTab(project);
+    showAllTasks();
 }
 
 function attachTabListeners() {
@@ -41,6 +79,12 @@ function attachTabListeners() {
     const todayTasksTab = document.getElementById("today-tasks-tab").addEventListener("click", showTodayTasks);
     const nextWeekTasksTab = document.getElementById("next-week-tasks-tab").addEventListener("click", showNextWeekTasks);
     const importantasksTab = document.getElementById("important-tasks-tab").addEventListener("click", showImportantTasks);
+    const leftPanel = document.querySelector(".left-panel");
+    const rightPanel = document.querySelector(".right-panel");
+    const menuButton = document.querySelector("button.menu").addEventListener("click", () => {
+        leftPanel.classList.toggle("hidden")
+        rightPanel.classList.toggle("expanded")
+    });
 
     tabButtons.forEach(button => {
         if (button !== addProjectButton)

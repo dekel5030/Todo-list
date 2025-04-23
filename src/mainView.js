@@ -47,6 +47,30 @@ function createProjectTab(project) {
     return projectTab
 }
 
+function deleteProjectTab(project) {
+    const projectTab = document.querySelector(`button.project-tab[data-project-id="${project.id}"]`);
+    
+    if (projectTab) {
+        projectTab.remove();
+    }
+}
+
+function createTrashButton() {
+    const trashButton = document.createElement("div");
+
+    trashButton.classList.add("trash-button");
+    trashButton.innerHTML = '🗑️';
+
+    return trashButton;
+}
+
+function placeElementOnCursor(event, element) {
+    element.style.position = "absolute";
+    element.style.left = `${event.pageX + 10}px`;
+    element.style.top = `${event.pageY + 10}px`;
+    document.body.appendChild(element);
+}
+
 
 function deleteParent(event){
     event.target.parentElement.remove();
@@ -295,5 +319,8 @@ export {
     renderProject,
     createProjectTab,
     showTaskMenu,
-    createEditTaskForm
+    createEditTaskForm,
+    deleteProjectTab,
+    createTrashButton,
+    placeElementOnCursor
   };

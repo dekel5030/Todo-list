@@ -52,6 +52,17 @@ function loadProjectsFromStorage() {
     return projects;
 }
 
+function deleteProjectFromStorage(project) {
+    const projectIndex = projects.findIndex(proj => proj === project);
+    console.log(projectIndex);
+
+    if (projectIndex !== -1) {
+        projects.splice(projectIndex, 1);
+    }
+
+    saveProjectsToStorage();
+}
+
 
 
 export {
@@ -59,5 +70,6 @@ export {
     getAllProjects,
     getProjectById,
     saveProjectsToStorage,
-    loadProjectsFromStorage
+    loadProjectsFromStorage,
+    deleteProjectFromStorage
 };
