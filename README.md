@@ -17,18 +17,16 @@ This is a simple **To-Do List** application built using **HTML**, **CSS**, and *
 - **JavaScript** - Functionality for managing tasks, projects, and events
 - **Webpack** - Module bundler for asset management and optimizations
 
-## Getting Started
+## Usage
 
-To get a local copy of the project running, follow these steps:
+- Add a task by clicking the "Add Task" button.
+- click on a project title or description to edit.
+- Right-click on a project to delete it.
+- Use the checkboxes to mark tasks as completed or important.
+- Filter tasks by category using the tabs on the left.
 
-### Prerequisites
+## Link to Live Demo
 
-- **Node.js**: Ensure that **Node.js** is installed on your machine. If not, download and install it from [here](https://nodejs.org/).
+You can view the live version of the Todo List app here:  
+[Live Demo](https://dekel5030.github.io/Todo-list/)
 
-- **npm**: **npm** (Node Package Manager) comes with Node.js, so it should already be installed after you install Node.js.
-
-### Installation
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/dekel5030/Todo-list.git
