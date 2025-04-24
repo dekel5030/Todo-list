@@ -9,7 +9,10 @@ import {
     placeElementOnCursor
 } from './mainView.js';
 
-import { addProject as addProjectToModel, getProjectById, saveProjectsToStorage, loadProjectsFromStorage, getAllProjects, deleteProjectFromStorage } from './ProjectManager.js';
+import { addProject as addProjectToModel,
+     getProjectById, saveProjectsToStorage,
+      loadProjectsFromStorage, getAllProjects,
+       deleteProjectFromStorage, clearLocalStorage } from './ProjectManager.js';
 
 import Task from './Task.js';
 import Project from './Project.js';
@@ -22,7 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadProjects() {
-    const projects = loadProjectsFromStorage();
+    let projects = loadProjectsFromStorage();
+
+    if (!projects || projects.length === 0) {
+        clearLocalStorage();
+        projects = createSampleProjects();
+        saveProjectsToStorage();
+    }
     
     projects.forEach(project => {
         createProjectTabButton(project);
@@ -383,4 +392,37 @@ function showImportantTasks()
 
     const {projectHeader, projectDescription, addTaskButton} = showProject(project);
     addTaskButton.remove();
+}
+
+function createSampleProjects() {
+    const project1 = addProjectToModel();
+    const project2 = addProjectToModel();
+    const project3 = addProjectToModel();
+
+    project1.title = "Welcome Tour";
+    project1.description = "A quick guide to get familiar with how the app works.";
+
+    project2.title = "Work Tasks";
+    project2.description = "Things to wrap up before the end of the week.";
+
+    project3.title = "Home Chores";
+    project3.description = "Regular tasks to keep the home clean and organized.";
+
+    project1.addTask(new Task("Read the guide", "Click around and explore the app", new Date().toISOString().split('T')[0], true));
+    project1.addTask(new Task("Create your own project", "Try clicking the '+' button on the sidebar", new Date().toISOString().split('T')[0]));
+
+    project2.addTask(new Task("Finish the report", "Due by Friday", getFutureDate(3)));
+    project2.addTask(new Task("Email the client", "Remember to attach the PDF", getFutureDate(1)));
+
+    project3.addTask(new Task("Do the laundry", "Check if detergent is enough", getFutureDate(2)));
+    project3.addTask(new Task("Clean the kitchen", "Especially the stove and sink", getFutureDate(5)));
+
+    return [project1, project2, project3];
+}
+
+
+function getFutureDate(daysAhead) {
+    const date = new Date();
+    date.setDate(date.getDate() + daysAhead);
+    return date.toISOString().split('T')[0];
 }

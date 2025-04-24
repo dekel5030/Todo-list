@@ -63,7 +63,9 @@ function deleteProjectFromStorage(project) {
     saveProjectsToStorage();
 }
 
-
+function clearLocalStorage() {
+    localStorage.clear();
+}
 
 export {
     addProject,
@@ -71,5 +73,6 @@ export {
     getProjectById,
     saveProjectsToStorage,
     loadProjectsFromStorage,
-    deleteProjectFromStorage
+    deleteProjectFromStorage,
+    clearLocalStorage
 };
